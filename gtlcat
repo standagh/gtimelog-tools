@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# predpoklada na stdin vstup vygenerovany timelog_preprocess.py
+# priklad radku: 2014-09-15 16:25   85: CSAS_BRIDGE: zpracovani DEVu
+
+# skript ma 1 parametr:
+# 'CAT' ... zobraz vsechny zaznamy, ktere odpovidaji kategoriim s filtrem 'CAT*:'
+# 'CAT:' ... zobraz vsechny zaznamy, ktere odpovidaji presne kategorii 'CAT:'
+
+function usage
+{
+    echo "usage: $0 CAT[:]"
+}
+
+[ -z "$1" ] && { usage; exit 10; }
+
+if [[ "$1" =~ :$ ]]; then
+    GREP=" [0-9]{2}:[0-9]{2} [0-9]+: $1"
+else
+    GREP=" [0-9]{2}:[0-9]{2} [0-9]+: $1[^:]*:"
+fi
+
+# pouzij stdin
+grep -E "$GREP"
+    

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# selectuje standardni casove rozsahy z seznamu
+[ -z "$1" ] && { usage; exit 10; }
+
+timelog_filterdates.py $@
+

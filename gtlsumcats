@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#zobrazi sumu jen pro kategorie
+
+gtlsum | grep -Ev "^[0-9]{4}-[0-9]{2}-[0-9]{2}" | grep -v "START" | grep -v "^-*$"
+
