@@ -1,12 +1,19 @@
 #!/usr/bin/env python
 
 import sys
+import os
+
+TAGCHAR="@"
 
 class SumTimelog:
     
     CATSEPARATOR="_"
     
     def __init__(self):
+        self.TAGCHAR = TAGCHAR
+        if 'GTIMELOG_TAGCHAR' in os.environ:
+            self.TAGCHAR = os.environ['GTIMELOG_TAGCHAR']
+        
         self.cats = {}    
         self.tags = {}  
     
@@ -45,16 +52,21 @@ class SumTimelog:
                 else:
                     cat_combined = cat_combined + "_" + cat_part
                 
-                if cat_combined not in self.cats:
-                    self.cats[cat_combined] = []
-                    
+                #if cat_combined.startswith(cat):
+                if True:
+                    # we don't want to show parent cats, only child
+                    if cat_combined not in self.cats:
+                        self.cats[cat_combined] = []
+                #else:
+                #    continue
+
                 #a = (mincount, e)
                 #print( "A cat_combined'%s': '%s'" %(cat_combined, str(a)) )
                 self.cats[cat_combined].append( (int(mincount), t, cat, e) )
                 #print("cats: " + str(self.cats))
         
             # find tags
-            probableTags = e.split('#')
+            probableTags = e.split(self.TAGCHAR)
             allProbTags = len(probableTags) - 1
             if len(probableTags) > 1:
                 # chci iterovat pres skoro vsechny polozky
@@ -89,7 +101,7 @@ class SumTimelog:
         for cat_combined in sorted(self.cats.keys()):
             totalminutes = 0
             
-            outputstr = "START of output for CATEGORY '%s'" % cat_combined
+            outputstr = "START of output for CATEGORY  %s" % cat_combined
             print("\n"+outputstr+"\n"+"-"*len(outputstr))
             
             for entry in self.cats[cat_combined]:
@@ -132,12 +144,12 @@ class SumTimelog:
                 maxtaglen = len(tag)
 
         formatstring = "{:s}: {:" +str(maxcatlen)+ "s}: {:s}"
-        formattotalstring = "TOTAL for TAG '{:"+str(maxtaglen)+"s}': {:d}:{:02d}"
+        formattotalstring = "TOTAL for TAG       {:"+str(maxtaglen)+"s}: {:d}:{:02d}"
         
         for tag in sorted(self.tags.keys()):
             totalminutes = 0
             
-            outputstr = "START of output for TAG '%s'" % tag
+            outputstr = "START of output for TAG       %s" % tag
             print("\n"+outputstr+"\n"+"-"*len(outputstr))
             
             for entry in self.tags[tag]:

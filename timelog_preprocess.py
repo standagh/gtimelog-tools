@@ -100,6 +100,5 @@ if __name__ == "__main__":
         p = PreprocessTimelog("-")
     else:
         p = PreprocessTimelog(sys.argv[1])
-    #p = PreprocessTimelog("/path/to/timelog.txt")
     p.go()
        

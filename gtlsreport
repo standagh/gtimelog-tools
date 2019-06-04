@@ -1,9 +1,9 @@
 #!/bin/bash
 #set -x
 
-# main reporting tool - daily details for selected tasks
+# main reporting tool - tasks group sums for top level tasks - without any '_'
 
-[ -z "GTIMELOG_TAGCHAR" ] && GTIMELOG_TAGCHAR='@'
+[ -z "$GTIMELOG_TAGCHAR" ] && GTIMELOG_TAGCHAR='@'
 export GTIMELOG_TAGCHAR
 
 [ -z "$1" ] && { . gtlsreport_help; exit 10; }
@@ -27,11 +27,11 @@ fi
 if [ -n "$CATEGORY" ]; then
     if [[ "$CATEGORY" =~ ^[\#@] ]]; then
         # we have a tag
-        gtllist | grep -E '^[0-9 :-]{15,} .*[ ,.?]'${CATEGORY}'([ ,]|$)' | gtlsel "$PARAM1" "$PARAM2" | gtlsum
+        gtllist | grep -E '^[0-9 :-]{15,} .*[ ,.?]'${CATEGORY}'([ ,]|$)' | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev " [^ ]+(_[^ ]+)+[ ]*:"
     else
         # we have a category
-        gtllist | grep -E "^[0-9 :-]{15,} ${CATEGORY}[^ :]*: " | gtlsel "$PARAM1" "$PARAM2" | gtlsum
+        gtllist | grep -E "^[0-9 :-]{15,} ${CATEGORY}[^ :]*: " | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev " [^ ]+(_[^ ]+)+[ ]*:"
     fi
 fi
-[ -z "$CATEGORY" ] && gtllist | gtlsel "$PARAM1" "$PARAM2" | gtlsum
+[ -z "$CATEGORY" ] && gtllist | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev " [^ ]+(_[^ ]+)+[ ]*:"
 
