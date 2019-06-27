@@ -1,4 +1,9 @@
 #!/bin/bash
 
-timelog_preprocess.py ~/.local/share/gtimelog/timelog.txt
+INPUT_FILE="$HOME/.local/share/gtimelog/timelog.txt"
+[ -n "$GTLLIST_DATA" ] && INPUT_FILE="$GTLLIST_DATA"
+
+[ -r "$INPUT_FILE" ] || { echo "ERROR: gtllist - input file '$INPUT_FILE' is not readable" >&2; exit 10; }
+
+timelog_preprocess.py "$INPUT_FILE"
 

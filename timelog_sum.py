@@ -52,13 +52,8 @@ class SumTimelog:
                 else:
                     cat_combined = cat_combined + "_" + cat_part
                 
-                #if cat_combined.startswith(cat):
-                if True:
-                    # we don't want to show parent cats, only child
-                    if cat_combined not in self.cats:
-                        self.cats[cat_combined] = []
-                #else:
-                #    continue
+                if cat_combined not in self.cats:
+                    self.cats[cat_combined] = []
 
                 #a = (mincount, e)
                 #print( "A cat_combined'%s': '%s'" %(cat_combined, str(a)) )
