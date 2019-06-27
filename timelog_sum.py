@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import sys
 import os
+
+import logging
+logging.basicConfig( level=logging.INFO, format="%(asctime)s - %(levelname)s - %(thread)d - %(name)s - %(module)s:%(funcName)s:%(lineno)d - %(message)s"  )
+log = logging.getLogger(__name__)
 
 TAGCHAR="@"
 
@@ -61,25 +65,26 @@ class SumTimelog:
                 #print("cats: " + str(self.cats))
         
             # find tags
-            probableTags = e.split(self.TAGCHAR)
-            allProbTags = len(probableTags) - 1
-            if len(probableTags) > 1:
+            probable_tags = e.split(self.TAGCHAR)
+            all_prob_tags = len(probable_tags) - 1
+            if len(probable_tags) > 1:
                 # chci iterovat pres skoro vsechny polozky
                 # e is rstripped - see above
-                for i in range(allProbTags):
-                    if len(probableTags[ allProbTags - i ]) == 0:
+                for i in range(all_prob_tags):
+                    probable_tag = probable_tags[ all_prob_tags - i ].rstrip()
+                    if len(probable_tag) == 0:
                         # mam invalidni tag
                         raise ValueError("Invalid (empty) tag on line '%s'" % line)
 
                     # tag je to, co nema mezeru uprostred slova
-                    if ' ' in probableTags[ allProbTags - i ]:
+                    if ' ' in probable_tag:
                         # not a hash
-                        sys.stderr.write("Warning (Debug): space in \"tag\" '%s'. Ignoring tag.\n" % probableTags[ allProbTags - i ])
+                        sys.stderr.write("Warning (Debug): space in \"tag\" '%s'. Ignoring tag.\n" % probable_tag)
                         break
-                    
-                    if probableTags[ allProbTags - i ] not in self.tags:
-                        self.tags[ probableTags[ allProbTags - i ] ] = []
-                    self.tags[ probableTags[ allProbTags - i ] ].append( (int(mincount), t,  cat, e) )
+
+                    if probable_tag not in self.tags:
+                        self.tags[ probable_tag ] = []
+                    self.tags[ probable_tag ].append( (int(mincount), t,  cat, e) )
             
             
     def printCats(self):
