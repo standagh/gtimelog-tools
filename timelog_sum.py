@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
 import sys
 import os
@@ -7,11 +7,11 @@ import logging
 logging.basicConfig( level=logging.INFO, format="%(asctime)s - %(levelname)s - %(thread)d - %(name)s - %(module)s:%(funcName)s:%(lineno)d - %(message)s"  )
 log = logging.getLogger(__name__)
 
-TAGCHAR="@"
+TAGCHAR = "@"
 
-class SumTimelog:
+class SumTimeLog:
     
-    CATSEPARATOR="_"
+    CATSEPARATOR = "_"
     
     def __init__(self):
         self.TAGCHAR = TAGCHAR
@@ -31,7 +31,7 @@ class SumTimelog:
             
             line = line.rstrip()
             try:
-                t1,t2,cat,e = line.split(":", 3)
+                t1, t2, cat, e = line.split(":", 3)
             except ValueError:
                 print("Error in data in line '%s'" % line)
                 raise
@@ -45,9 +45,8 @@ class SumTimelog:
                 continue
 
             mincount = int(t2.split(" ", 1)[1])
-            #print("Mincount: '%d' '%s' %s'" % (mincount, cat, line))
-            
-            
+            log.debug("Mincount: '%d' '%s' %s'" % (mincount, cat, line))
+
             cats = cat.split("_")
             cat_combined = ""
             for cat_part in cats:
@@ -59,11 +58,8 @@ class SumTimelog:
                 if cat_combined not in self.cats:
                     self.cats[cat_combined] = []
 
-                #a = (mincount, e)
-                #print( "A cat_combined'%s': '%s'" %(cat_combined, str(a)) )
                 self.cats[cat_combined].append( (int(mincount), t, cat, e) )
-                #print("cats: " + str(self.cats))
-        
+
             # find tags
             probable_tags = e.split(self.TAGCHAR)
             all_prob_tags = len(probable_tags) - 1
@@ -181,7 +177,7 @@ class SumTimelog:
  
                  
 if __name__ == "__main__":
-    p = SumTimelog()
+    p = SumTimeLog()
     p.go()
     p.printCats()
     p.printTags()
