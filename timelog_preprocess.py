@@ -11,6 +11,9 @@ import re
 import datetime
 from sys import exc_info
 
+import logging
+logging.basicConfig( level=logging.INFO, format="%(asctime)s - %(levelname)s - %(thread)d - %(name)s - %(module)s:%(funcName)s:%(lineno)d - %(message)s"  )
+log = logging.getLogger(__name__)
 
 class PreprocessTimelog:
     
@@ -27,11 +30,11 @@ class PreprocessTimelog:
 
 
     def go(self):
-        
         pline = None
         line = ""
         dt = None
         pdt = None
+        log.debug("Opening file: '{}'".format(self.filename))
         if self.filename == '-':
             f = sys.stdin
         else:
@@ -43,8 +46,10 @@ class PreprocessTimelog:
             pdt = dt
 
             count = count + 1
+            log.debug("Reading line '{}'".format(count))
             line = f.readline()
             if(line == ""):
+                log.debug("Reached end of file".format(count))
                 #print("D: end of flie")
                 break
             line = line.rstrip().lstrip()
@@ -66,6 +71,7 @@ class PreprocessTimelog:
                 
             
             try:
+                log.debug("Parsing date/time for '{}'".format(t))
                 dt = self.parse_datetime(t);
             except ValueError:
                 print("Line: '%s', t='%s'" % (line, t))
