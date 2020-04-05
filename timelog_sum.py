@@ -100,12 +100,19 @@ class SumTimeLog:
             outputstr = "START of output for CATEGORY  %s" % cat_combined
             print("\n"+outputstr+"\n"+"-"*len(outputstr))
             
+            totalminperday = 0
+            prevDateCat = None
+            prevDate = None
+
+            perDayOutput = ""
+
             for entry in self.cats[cat_combined]:
                 #print(entry)
                 try:
-                    totalminutes = totalminutes + entry[0]
+                    #totalminutes = totalminutes + entry[0]
                     # remove minutes length entry
                     t1,t2,t3 = entry[1].split(" ", 2)
+                    totalminutes = totalminutes + int(t3)
                     t = t1 + " " + t2
                     
                     # work time
@@ -115,14 +122,34 @@ class SumTimeLog:
 
                     # time, category, entry
                     print(formatstring.format(t, entry[2], entry[3]) )
+
+
+                    if prevDateCat != (t1 + "_" + str(cat_combined)):
+                        if(prevDateCat != None):
+                            whr = totalminperday / 60
+                            wminutes = totalminperday % 60
+                            perDayOutput = perDayOutput + "\n" + formatstring.format(prevDate + "       (%d:%02d)"%(whr,wminutes), cat_combined, '-')
+
+                        prevDateCat = (t1 + "_" + str(cat_combined))
+                        prevDate = t1
+                        totalminperday = 0
+
+                    totalminperday = totalminperday + int(t3)
+
                 except IndexError:
                     print("here" + str(entry))
                     raise
                 
+            if(prevDateCat != None):
+                whr = totalminperday / 60
+                wminutes = totalminperday % 60
+                perDayOutput = perDayOutput + "\n" + formatstring.format(prevDate + "       (%d:%02d)"%(whr,wminutes), cat_combined, '-')
+
+            print(perDayOutput)
+
             hr = totalminutes / 60
             minutes = totalminutes % 60
             mandays = hr / 8
-
 
             outputstr = formattotalstring.format(cat_combined, hr, minutes)
             print(outputstr+"\n"+"-"*len(outputstr))
