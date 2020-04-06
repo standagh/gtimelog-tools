@@ -102,7 +102,7 @@ class SumTimeLog:
                 maxcatlen = len(cat_combined)
 
         formatstring = "{:s}: {:" +str(maxcatlen)+ "s}: {:s}"
-        formattotalstring = "------------------\nTOTAL for CATEGORY  {:"+str(maxcatlen)+"s}: {:d}:{:02d}"
+        formattotalstring = "------------------\nTOTAL for CATEGORY  {:"+str(maxcatlen)+"s}: "+bcolors.OKBLUE+"{:d}:{:02d}"+bcolors.OKBLUE
 
         for cat_combined in sorted(self.cats.keys()):
             totalminutes = 0
@@ -138,7 +138,7 @@ class SumTimeLog:
                         if(prevDateCat != None):
                             whr = totalminperday / 60
                             wminutes = totalminperday % 60
-                            perDayOutput = perDayOutput + "\n" + formatstring.format(prevDate + "       (%d:%02d)"%(whr,wminutes), cat_combined, '-')
+                            perDayOutput = perDayOutput + "\n" + formatstring.format(prevDate + "       (%s%d:%02d%s)"%(bcolors.OKBLUE,whr,wminutes,bcolors.ENDC), cat_combined, '-')
 
                         prevDateCat = (t1 + "_" + str(cat_combined))
                         prevDate = t1
@@ -153,7 +153,7 @@ class SumTimeLog:
             if(prevDateCat != None):
                 whr = totalminperday / 60
                 wminutes = totalminperday % 60
-                perDayOutput = perDayOutput + "\n" + formatstring.format(prevDate + "       (%d:%02d)"%(whr,wminutes), cat_combined, '-')
+                perDayOutput = perDayOutput + "\n" + formatstring.format(prevDate + "       (%s%d:%02d%s)"%(bcolors.OKBLUE,whr,wminutes,bcolors.ENDC), cat_combined, '-')
 
             print(perDayOutput)
 
