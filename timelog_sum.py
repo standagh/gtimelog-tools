@@ -102,7 +102,7 @@ class SumTimeLog:
                 maxcatlen = len(cat_combined)
 
         formatstring = "{:s}: {:" +str(maxcatlen)+ "s}: {:s}"
-        formattotalstring = "------------------\nTOTAL for CATEGORY  {:"+str(maxcatlen)+"s}: "+bcolors.OKBLUE+"{:d}:{:02d}"+bcolors.OKBLUE
+        formattotalstring = "------------------\nTOTAL for CATEGORY  {:"+str(maxcatlen)+"s}: "+bcolors.OKBLUE+"{:d}:{:02d}"+bcolors.ENDC
 
         for cat_combined in sorted(self.cats.keys()):
             totalminutes = 0
