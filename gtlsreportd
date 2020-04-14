@@ -32,7 +32,6 @@ if [ -n "$CATEGORY" ]; then
         gtllist | grep -E '^[0-9 :-]{15,} .*[ ,.?]'${CATEGORY}'([ ,]|$)' | gtlsel "$PARAM1" "$PARAM2" | gtlsum
     else
         [ -n "${CATEGORY}" ] && { export GTIMELOG_CATEGORY="${CATEGORY}"; }
-        export GTIMELOG_CATEGORY="${CATEGORY}"
         # we have a category
         gtllist | grep -E "^[0-9 :-]{15,} ${CATEGORY}[^ :]*: " | gtlsel "$PARAM1" "$PARAM2" | gtlsum
     fi

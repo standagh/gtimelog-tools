@@ -26,14 +26,5 @@ else
     fi
 fi
 
-if [ -n "$CATEGORY" ]; then
-    if [[ "$CATEGORY" =~ ^[\#@] ]]; then
-        # we have a tag
-        gtllist | grep -E '^[0-9 :-]{15,} .*[ ,.?]'${CATEGORY}'([ ,]|$)' | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev " [^ ]+(_[^ ]+)+[ ]*:" | grep -Ev "^[=-]+$"
-    else
-        # we have a category
-        gtllist | grep -E "^[0-9 :-]{15,} ${CATEGORY}[^ :]*: " | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev " [^ ]+(_[^ ]+)+[ ]*:" | grep -Ev "^[=-]+$"
-    fi
-fi
-[ -z "$CATEGORY" ] && gtllist | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev " [^ ]+(_[^ ]+)+[ ]*:" | grep -Ev "^[=-]+$"
+gtllist | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev " [^ ]+(_[^ ]+)+[ ]*:" | grep -Ev "^[=-]+$"
 
