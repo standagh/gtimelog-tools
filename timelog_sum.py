@@ -19,6 +19,20 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+class bcolors_none:
+    HEADER = ''
+    OKBLUE = ''
+    OKGREEN = ''
+    WARNING = ''
+    FAIL = ''
+    ENDC = ''
+    BOLD = ''
+    UNDERLINE = ''
+
+if('GTIMELOG_NOCOLOR' in os.environ and os.environ['GTIMELOG_NOCOLOR'].strip() == "1"):
+    bcolors = bcolors_none
+
+
 class SumTimeLog:
     
     CATSEPARATOR = "_"
@@ -34,6 +48,9 @@ class SumTimeLog:
     def go(self):
         f = sys.stdin
         
+        if 'GTIMELOG_CATEGORY' in os.environ:
+            self.cats[os.environ['GTIMELOG_CATEGORY']] = []
+
         while True:
             line = f.readline()
             if line == "":
@@ -64,7 +81,11 @@ class SumTimeLog:
                     cat_combined = cat_part
                 else:
                     cat_combined = cat_combined + "_" + cat_part
-                
+
+                if 'GTIMELOG_CATEGORY' in os.environ:
+                    if not(cat_combined == os.environ['GTIMELOG_CATEGORY'] or cat_combined.startswith(os.environ['GTIMELOG_CATEGORY']+'_')):
+                        continue
+
                 if cat_combined not in self.cats:
                     self.cats[cat_combined] = []
 
@@ -108,7 +129,7 @@ class SumTimeLog:
             totalminutes = 0
             
             outputstr = "START of output for CATEGORY  %s%s%s" % (bcolors.OKGREEN, cat_combined, bcolors.ENDC)
-            print("\n"+outputstr+"\n"+"-"*len(outputstr))
+            print("\n"+outputstr+"\n"+"="*len(outputstr))
             
             totalminperday = 0
             prevDateCat = None

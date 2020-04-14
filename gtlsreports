@@ -1,5 +1,7 @@
 #!/bin/bash
 #set -x
+cd $(dirname "$0")
+export PATH=$PATH:$(pwd)
 
 # main reporting tool - tasks group sums for selected tasks and it's all subcategories - character '_' seperates subcategories
 
@@ -27,12 +29,12 @@ fi
 if [ -n "$CATEGORY" ]; then
     if [[ "$CATEGORY" =~ ^[\#@] ]]; then
         # we have a tag
-        gtllist | grep -E '^[0-9 :-]{15,} .*[ ,.?]'${CATEGORY}'([ ,]|$)' | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats
+        gtllist | grep -E '^[0-9 :-]{15,} .*[ ,.?]'${CATEGORY}'([ ,]|$)' | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev "^[=-]+$"
     else
         # we have a category
-        gtllist | grep -E "^[0-9 :-]{15,} ${CATEGORY}[^ :]*: " | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats
+        gtllist | grep -E "^[0-9 :-]{15,} ${CATEGORY}[^ :]*: " | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev "^[=-]+$"
     fi
 fi
-[ -z "$CATEGORY" ] && gtllist | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats
+[ -z "$CATEGORY" ] && gtllist | gtlsel "$PARAM1" "$PARAM2" | gtlsumcats | grep -Ev "^[=-]+$"
 
 
