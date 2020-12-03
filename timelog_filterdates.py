@@ -53,7 +53,7 @@ class FilterTimelogDates:
     
         # kolik dnu zpatky
         if re.match('^[0-9]+$', param) is not None:
-            self.cd.toordinal() - int(param)
+            #self.cd.toordinal() - int(param)
             return datetime.date.fromordinal( self.cd.toordinal() - int(param) )
     
         # den v mesici

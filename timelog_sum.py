@@ -68,7 +68,7 @@ class SumTimeLog:
 
             # _INTERVAL je radek vlozeny timelog_filterdates a obsahuje interval pro jake dny je proveden filterdates
             if cat == '_INTERVAL':
-                print e
+                print(e)
                 continue
 
             mincount = int(t2.split(" ", 1)[1])
@@ -147,7 +147,7 @@ class SumTimeLog:
                     t = t1 + " " + t2
                     
                     # work time
-                    whr = int(t3) / 60
+                    whr = int(int(t3) / 60)
                     wminutes = int(t3) % 60
                     t = t + " (%d:%02d)"%(whr,wminutes)
 
@@ -157,7 +157,7 @@ class SumTimeLog:
 
                     if prevDateCat != (t1 + "_" + str(cat_combined)):
                         if(prevDateCat != None):
-                            whr = totalminperday / 60
+                            whr = int(totalminperday / 60)
                             wminutes = totalminperday % 60
                             perDayOutput = perDayOutput + "\n" + formatstring.format(prevDate + "       (%s%d:%02d%s)"%(bcolors.OKBLUE,whr,wminutes,bcolors.ENDC), cat_combined, '-')
 
@@ -172,13 +172,13 @@ class SumTimeLog:
                     raise
                 
             if(prevDateCat != None):
-                whr = totalminperday / 60
+                whr = int(totalminperday / 60)
                 wminutes = totalminperday % 60
                 perDayOutput = perDayOutput + "\n" + formatstring.format(prevDate + "       (%s%d:%02d%s)"%(bcolors.OKBLUE,whr,wminutes,bcolors.ENDC), cat_combined, '-')
 
             print(perDayOutput)
 
-            hr = totalminutes / 60
+            hr = int(totalminutes / 60)
             minutes = totalminutes % 60
             mandays = hr / 8
 
@@ -215,7 +215,7 @@ class SumTimeLog:
                     t = t1 + " " + t2
                     
                     # work time
-                    whr = int(t3) / 60
+                    whr = int(int(t3) / 60)
                     wminutes = int(t3) % 60
                     t = t + " (%d:%02d)"%(whr,wminutes)
 
@@ -225,7 +225,7 @@ class SumTimeLog:
                     print("here" + str(entry))
                     raise
                 
-            hr = totalminutes / 60
+            hr = int(totalminutes / 60)
             minutes = totalminutes % 60
             mandays = hr / 8
 
