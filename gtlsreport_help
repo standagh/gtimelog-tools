@@ -2,10 +2,10 @@
 
 echo "`basename $0` startInterval [endInterval] [project]"
 echo "Interval: "
-echo "    [0-9]+ ... how many days - 10 = for last 10 days"
+echo "    [0-9]+ ... how many past days in addition to todays day; '2' means for today and 2 days prior today"
 echo "    +[0-9]+ ... how many deys in the interval. Can be used only as an 'endInterval' value"
-echo "    [0-9]+. since x-th day in the month - 4. = report since the 4th of the month till today"
-echo "    [0-9]+.[0-9]+. since x-th day in the y-th month - 4.5. = report since the 4th of May till today"
+echo "    [0-9]+. since x-th day in the month ; '4.' means report since the 4th of the month till today"
+echo "    [0-9]+.[0-9]+. since x-th day in the y-th month; '4.5.' means report since the 4th of May till today"
 echo "    [0-9]+.[0-9]+.[0-9]{2} like above but includes year in 2digit form"
 echo "    [0-9]+.[0-9]+.[0-9]{4} like above but includes year in 4digit form"
 echo "    w ... current week (only as 'startInterval', no 'endInterval' expected.)"
